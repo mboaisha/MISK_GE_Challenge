@@ -1,0 +1,43 @@
+---
+title: "The relationship between SAT scores and admission rates in U.S. colleges"
+author:
+- Mohammad Boaisha
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+geometry: margin=1in
+fontsize: 11pt
+documentclass: article
+---
+
+```{r setup, include = FALSE}
+# DO NOT ALTER THIS CHUNK
+# Set knitr options
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  cache = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 5,
+  fig.asp = 0.618,
+  fig.align = "center",
+  out.width = "80%",
+  dpi = 120
+)
+# Load required packages
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(infer))
+
+# Set seed
+set.seed(98261936)
+```
+
+## Preprocessing the dataset
+
+#Load dplyr package to use the rename() function.
+
+## Exploratory data analysis
+
