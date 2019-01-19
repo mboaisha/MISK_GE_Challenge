@@ -1,5 +1,5 @@
 ---
-title: "The relationship between SAT scores and admission rates in U.S. colleges"
+title: "Kickstarter data for the MISK/General Assembly admission challenge"
 author:
 - Mohammad Boaisha
 date: "`r Sys.Date()`"
@@ -30,6 +30,7 @@ knitr::opts_chunk$set(
 # Load required packages
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(infer))
+suppressPackageStartupMessages(library(moments))
 
 # Set seed
 set.seed(98261936)
@@ -37,7 +38,77 @@ set.seed(98261936)
 
 ## Preprocessing the dataset
 
-#Load dplyr package to use the rename() function.
+First, we load the dataset into a format that R can understand and make an object out of.
+```{r}
+ks_dataset <- read.csv("DSI_kickstarterscrape_dataset.csv")
+```
+
+The dataset seems tidy as it is, as such, no further processing is required.
+
 
 ## Exploratory data analysis
 
+# What is the mean (total) pledge that projects get? (not per backer)
+
+```{r}
+mean(ks_dataset$pledged, na.rm = TRUE)
+```
+
+
+The mean total is 4980.75$
+
+# Create a histogram that shows the distribution for number of backers. What is the skew of the distribution?
+
+```{r}
+ggplot(data = ks_dataset, aes(x = backers)) +
+  geom_histogram(bidnwidth = 50)
+```
+This distribution is too skewed to the right. Thus rendering this histogram useless and meaningless. However, we can try using log functions to find an even distribution. The histogram below does confirm the fact that the data is skewed to the right.
+
+```{r}
+ggplot(data = ks_dataset, aes(x = backers)) +
+  geom_histogram(bins = 10) +
+  scale_x_log10()
+```
+
+This histogram is not useful either, the backer variable should be a whole number.
+
+```{r}
+ggplot(data = ks_dataset, aes(x = backers)) +
+  geom_histogram() +
+  labs(title = "Backers distribution",
+        x = "Number Of Backers",
+        y = "Count"
+       ) +
+  ylim(c(0,25)) +
+  xlim(c(0,90000))
+```
+
+Now we are getting somewhere! It appears that few project reach astronomical backer numbers, specifically under over 20,000 backers.
+
+```{r}
+
+
+skewness(ks_dataset$backers)
+
+```
+This is a very high degree of skewness. because it's well above 1
+
+# Is the "duration" variable normally distributed?
+
+We can visualize the variable like so:
+```{r}
+
+ggplot(data = ks_dataset, aes(x = duration)) +
+  geom_histogram(bins = 20)
+
+```
+From the histogram above, we can say that the "duration" distribution is not normally distributed.
+
+This can be further proved by looking at the skewness and kurtosis of the data like so:
+```{r}
+skewness(ks_dataset$duration)
+kurtosis(ks_dataset$duration)
+```
+
+# What's the best length of time to run a campaign?
