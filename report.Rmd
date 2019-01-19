@@ -103,7 +103,7 @@ ggplot(data = ks_dataset, aes(x = duration)) +
   geom_histogram(bins = 20)
 
 ```
-From the histogram above, we can say that the "duration" distribution is not normally distributed.
+From the histogram above, we can say that the "duration" distribution is definitely not normally distributed.
 
 This can be further proved by looking at the skewness and kurtosis of the data like so:
 ```{r}
@@ -133,6 +133,22 @@ ggplot(data = ks_trimmed, aes(y = backers, x = duration, color = category)) +
   
 ```
 
-There is no clear correlation between duration time and the number of backers. However, if we were to follow the pattern of successful campaigns, it's about 1.5 months. This is specially true if you file your Kickstarter campaign under the "Games" category.
+There is no clear correlation between duration time and the number of backers. However, if we were to follow the pattern of successful campaigns, it's about 1.5 months. This is specially true if you happen to file your Kickstarter campaign under the "Games" category.
 
-# What's the ideal pledge goal?
+# What's the ideal pledge goal? TODO
+```{r}
+ggplot(data = ks_trimmed, aes(y = pledged, x = goal)) +
+  geom_point()
+```
+
+# What type of projects would be most successful at getting funded?
+```{r}
+ks_filtered <- ks_dataset %>% 
+  filter(status == "failed" | status == "successful")
+  
+
+ggplot(data = ks_filtered, aes(x = status, fill = status)) +
+  geom_bar() +
+  facet_wrap(.~category)
+```
+# 
