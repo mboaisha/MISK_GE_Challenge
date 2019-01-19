@@ -112,3 +112,27 @@ kurtosis(ks_dataset$duration)
 ```
 
 # What's the best length of time to run a campaign?
+
+First we have to come up with criteria that can qualify a project as "successful":
+
+* The project has to exceed it's funding goal
+* The project has to be listed as "successful" (duh)
+
+
+
+```{r}
+ks_trimmed <- ks_dataset %>%
+  filter(status == "successful",
+         funded.percentage > 1)
+
+ggplot(data = ks_trimmed, aes(y = backers, x = duration, color = category)) +
+  geom_jitter(alpha = 0.5) +
+  labs(title = "Number of backers vs. Campaign duration",
+       y = "Number of backers",
+       x = "Campaign duration (in days)")
+  
+```
+
+There is no clear correlation between duration time and the number of backers. However, if we were to follow the pattern of successful campaigns, it's about 1.5 months. This is specially true if you file your Kickstarter campaign under the "Games" category.
+
+# What's the ideal pledge goal?
