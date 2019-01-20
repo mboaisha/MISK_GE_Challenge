@@ -129,7 +129,8 @@ ggplot(data = ks_trimmed, aes(y = backers, x = duration, color = category)) +
   geom_jitter(alpha = 0.5) +
   labs(title = "Number of backers vs. Campaign duration",
        y = "Number of backers",
-       x = "Campaign duration (in days)")
+       x = "Campaign duration (in days)") +
+  scale_x_log10()
   
 ```
 
@@ -137,8 +138,15 @@ There is no clear correlation between duration time and the number of backers. H
 
 # What's the ideal pledge goal? TODO
 ```{r}
-ggplot(data = ks_trimmed, aes(y = pledged, x = goal)) +
-  geom_point()
+# Wrangle the data for visualization
+ks_goal <- ks_dataset %>%
+  select(status,pledged, goal) %>%
+  filter(status == "failed" | status == "successful")
+
+# Visualization
+ggplot(data = ks_goal,aes(y = pledged, x = goal, fill = status)) +
+  geom_jitter()
+
 ```
 
 # What type of projects would be most successful at getting funded?
@@ -151,4 +159,8 @@ ggplot(data = ks_filtered, aes(x = status, fill = status)) +
   geom_bar() +
   facet_wrap(.~category)
 ```
-# 
+
+# Is there an ideal day/month/time to launch a campaign? TODO
+```{r}
+
+```
